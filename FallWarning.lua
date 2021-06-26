@@ -63,12 +63,7 @@ local RunService = game:GetService("RunService")
 RunService:BindToRenderStep("Rainbow", 1000, function()
     local hue = tick() % t / t
     local Color = fromHSV(hue, 1, 1)
-    if TextLabel.Visible == false then
-        return
-        elseif TextLabel.Visible == true then
     TextLabel.TextColor3 = Color3.new(Color.r,Color.g,Color.b)
- 
-    end
 end)  
 
 while wait() do

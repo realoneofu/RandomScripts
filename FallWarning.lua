@@ -1,15 +1,17 @@
-
+--检查脚本是否正常 | Check if Script OK
 if getgenv().execThe == true then
     return
 end
+-- 等待游戏加载 | Wait for the game to load
 repeat wait() until game:IsLoaded()
+--Script Start | 脚本开始
 getgenv().execThe = true
 local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
 local WarningDontDelete = Instance.new("ScreenGui")
 local FallWarning = Instance.new("Frame")
 local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
 local TextLabel = Instance.new("TextLabel")
-
+--检查玩家是否坠落 | Check if Player is falling
 humanoid.StateChanged:Connect(function(oldState, newState)
 	if newState == Enum.HumanoidStateType.Freefall then
 	    TextLabel.Visible = true
@@ -18,7 +20,7 @@ elseif newState ~= Enum.HumanoidStateType.Freefall then
         end
 	end)
     
---Properties:
+--特征 | Properties
 
 WarningDontDelete.Name = "WarningDontDelete"
 WarningDontDelete.Parent = game:GetService("CoreGui")
@@ -54,6 +56,7 @@ TextLabel.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.TextStrokeTransparency = 0.000
 TextLabel.TextWrapped = true
 TextLabel.Visible = false
+--彩虹色 | Rainbow Color
 local t = 5;
 
 local tick = tick
@@ -66,7 +69,7 @@ RunService:BindToRenderStep("Rainbow", 1000, function()
     local Color = fromHSV(hue, 1, 1)
     TextLabel.TextColor3 = Color3.new(Color.r,Color.g,Color.b)
 end)  
-
+--检查实例是否存在 | Check if Instance exists 
 while wait() do
     if WarningDontDelete.Parent == nil then
         game.StarterGui:SetCore("SendNotification", {
@@ -92,6 +95,18 @@ Duration = 5;
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
         return
     elseif FallWarning.Parent == nil then
+        WarningDontDelete:Destroy()
+        game.StarterGui:SetCore("SendNotification", {
+Title = "[警告⚠] [WARNING⚠]";
+Text = "不允许删除所需的实例                               DELETING THE REQUIRED INSTANCE IS NOT PERMITTED";
+Button1 = "[好的] [OK]";
+Duration = 5;
+})
+        getgenv().execThe = false
+		wait(0.1)
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
+        return
+    elseif UIAspectRatioConstraint.Parent == nil then
         WarningDontDelete:Destroy()
         game.StarterGui:SetCore("SendNotification", {
 Title = "[警告⚠] [WARNING⚠]";

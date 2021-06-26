@@ -2,7 +2,7 @@
 if getgenv().execThe == true then
     return
 end
-repeat wait() until game:GetService("CoreGui")
+repeat wait() until game:IsLoaded()
 getgenv().execThe = true
 local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
 local WarningDontDelete = Instance.new("ScreenGui")

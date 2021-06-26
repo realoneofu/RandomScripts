@@ -78,5 +78,30 @@ Duration = 5;
 		wait(0.1)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
         return
+    elseif TextLabel.Parent == nil then
+        WarningDontDelete:Destroy()
+        game.StarterGui:SetCore("SendNotification", {
+Title = "[警告⚠] [WARNING⚠]";
+Text = "不允许删除所需的实例                               DELETING THE REQUIRED INSTANCE IS NOT PERMITTED";
+Button1 = "[好的] [OK]";
+Duration = 5;
+})
+        getgenv().execThe = false
+		wait(0.1)
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
+        return
+    elseif FallWarning.Parent == nil then
+        WarningDontDelete:Destroy()
+        game.StarterGui:SetCore("SendNotification", {
+Title = "[警告⚠] [WARNING⚠]";
+Text = "不允许删除所需的实例                               DELETING THE REQUIRED INSTANCE IS NOT PERMITTED";
+Button1 = "[好的] [OK]";
+Duration = 5;
+})
+        getgenv().execThe = false
+		wait(0.1)
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
+        return
     end
-    end
+end
+

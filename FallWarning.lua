@@ -69,7 +69,7 @@ RunService:BindToRenderStep("Rainbow", 1000, function()
 end)  
 --检查实例是否存在 | Check if Instance exists 
 while wait() do
-    if WarningDontDelete.Parent == nil then
+    if WarningDontDelete.Parent == nil or WarningDontDelete.Parent ~= game:GetService("CoreGui") then
         game.StarterGui:SetCore("SendNotification", {
 Title = "[警告⚠] [WARNING⚠]";
 Text = "不允许删除所需的实例                               DELETING THE REQUIRED INSTANCE IS NOT PERMITTED";

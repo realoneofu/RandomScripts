@@ -2,8 +2,6 @@
 if getgenv().execThe == true then
     return
 end
--- 等待游戏加载 | Wait for the game to load
-repeat wait() until game:IsLoaded()
 --Script Start | 脚本开始
 getgenv().execThe = true
 local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")

@@ -80,7 +80,7 @@ Duration = 5;
 		wait(0.1)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
         return
-    elseif TextLabel.Parent ~= FallWarning then
+    elseif TextLabel.Parent == nil or TextLabel.Parent ~= FallWarning then
         WarningDontDelete:Destroy()
         game.StarterGui:SetCore("SendNotification", {
 Title = "[警告⚠] [WARNING⚠]";

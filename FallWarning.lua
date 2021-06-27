@@ -80,7 +80,7 @@ Duration = 5;
 		wait(0.1)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
         return
-    elseif TextLabel.Parent == nil then
+    elseif TextLabel.Parent == nil or TextLabel.Parent ~= FallWarning then
         WarningDontDelete:Destroy()
         game.StarterGui:SetCore("SendNotification", {
 Title = "[警告⚠] [WARNING⚠]";
@@ -92,7 +92,7 @@ Duration = 5;
 		wait(0.1)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
         return
-    elseif FallWarning.Parent == nil then
+    elseif FallWarning.Parent == nil or FallWarning.Parent ~= WarningDontDelete then
         WarningDontDelete:Destroy()
         game.StarterGui:SetCore("SendNotification", {
 Title = "[警告⚠] [WARNING⚠]";
@@ -104,7 +104,7 @@ Duration = 5;
 		wait(0.1)
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/realoneofu/RandomScripts/main/FallWarning.lua"))()
         return
-    elseif UIAspectRatioConstraint.Parent == nil then
+    elseif UIAspectRatioConstraint.Parent == nil or UIAspectRatioConstraint.Parent ~= FallWarning then
         WarningDontDelete:Destroy()
         game.StarterGui:SetCore("SendNotification", {
 Title = "[警告⚠] [WARNING⚠]";
@@ -118,4 +118,3 @@ Duration = 5;
         return
     end
 end
-

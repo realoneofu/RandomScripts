@@ -1,6 +1,7 @@
 --other source due to github breaking it
 --https://pastebin.pl/view/raw/79290c4b
 --script here at this link
+--DO NOT MAKE IT A LOADSTRING, SCRIPT WILL BREAK!
  game.StarterGui:SetCore("SendNotification", {
 Title = "Notice";
 Text = "Go to the source of the loadstring.";

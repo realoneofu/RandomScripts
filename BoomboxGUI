@@ -1,10 +1,752 @@
---other source due to github breaking it
---https://pastebin.pl/view/raw/79290c4b
---script here at this link
---DO NOT MAKE IT A LOADSTRING, SCRIPT WILL BREAK!
- game.StarterGui:SetCore("SendNotification", {
-Title = "Notice";
-Text = "Go to the source of the loadstring.";
-Button1 = "OK";
-Duration = 5;
-})
+print([[
+
+                  _                         __       
+                 | |                       / _|      
+   _ __ ___  __ _| | ___  _ __   ___  ___ | |_ _   _ 
+  | '__/ _ \/ _` | |/ _ \| '_ \ / _ \/ _ \|  _| | | |
+  | | |  __/ (_| | | (_) | | | |  __/ (_) | | | |_| |
+  |_|  \___|\__,_|_|\___/|_| |_|\___|\___/|_|  \__,_|
+  
+  Boombox GUI by realoneofu#3378
+]])
+-- Stealing isn't good!
+-- Gui to Lua
+-- Version: 3.2
+lagaudios = false
+annoyaudios = false
+duping = false
+
+
+-- Instances:
+
+local boomboxgui = Instance.new("ScreenGui")
+local yea = Instance.new("Frame")
+local maintext = Instance.new("TextLabel")
+local playradio = Instance.new("TextButton")
+local handhold = Instance.new("TextButton")
+local maintext_2 = Instance.new("TextLabel")
+local maintext_3 = Instance.new("TextLabel")
+local audioid = Instance.new("TextBox")
+local lag = Instance.new("TextButton")
+local sync = Instance.new("TextButton")
+local timepos = Instance.new("TextButton")
+local timenum = Instance.new("TextBox")
+local lagtime = Instance.new("TextBox")
+local annoysong = Instance.new("TextButton")
+local dupenum = Instance.new("TextBox")
+local dupestatus = Instance.new("TextButton")
+local maintext_4 = Instance.new("TextLabel")
+local exitgui = Instance.new("TextButton")
+
+--Properties:
+
+boomboxgui.Name = "boomboxgui"
+boomboxgui.Parent = game:WaitForChild("CoreGui")
+boomboxgui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+yea.Name = "yea"
+yea.Parent = boomboxgui
+yea.BackgroundColor3 = Color3.fromRGB(31, 31, 31)
+yea.BorderSizePixel = 3
+yea.Position = UDim2.new(0.35448578, 0, 0.261670738, 0)
+yea.Size = UDim2.new(0, 375, 0, 317)
+yea.Draggable = true
+yea.Active = true
+
+maintext.Name = "maintext"
+maintext.Parent = yea
+maintext.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+maintext.BorderSizePixel = 0
+maintext.Size = UDim2.new(0, 375, 0, 19)
+maintext.Font = Enum.Font.SourceSans
+maintext.Text = "Boombox GUI by realoneofu#3378"
+maintext.TextColor3 = Color3.fromRGB(255, 255, 255)
+maintext.TextScaled = true
+maintext.TextSize = 14.000
+maintext.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+maintext.TextWrapped = true
+
+playradio.Name = "playradio"
+playradio.Parent = yea
+playradio.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+playradio.BorderSizePixel = 0
+playradio.Position = UDim2.new(0.0314437076, 0, 0.431175262, 0)
+playradio.Size = UDim2.new(0, 129, 0, 43)
+playradio.Font = Enum.Font.SourceSans
+playradio.Text = "Play [MASS PLAY]"
+playradio.TextColor3 = Color3.fromRGB(0, 0, 0)
+playradio.TextSize = 20.000
+playradio.TextWrapped = true
+playradio.MouseButton1Click:Connect(function() -- listen out for an event
+	local id = audioid.Text
+
+	for _, tool in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+		if string.find(string.lower(tool.Name),'boomb') then
+			tool.Parent = game.Players.LocalPlayer.Character
+		end
+	end
+	wait()
+	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+		if v:IsA('Tool') then
+			v.Remote:FireServer('PlaySong',id)
+			v.Handle.Sound.Playing = false
+		end
+	end
+	wait()
+	local NA = game.Players.LocalPlayer.Name
+	for _,v in pairs(game.workspace[NA]:GetDescendants()) do
+		if v:IsA'Sound' then
+			if v.IsPlaying then
+				if v.Name ~= "Jumping" or v.Name ~= "FreeFalling" or v.Name ~= "Died" or v.Name ~= "Landing" or v.Name ~= "Splash" or v.Name ~= "Running" or v.Name ~= "Swimming" or v.Name ~= "Climbing" then  
+					v.TimePosition = 0
+				end
+			end
+		end
+	end
+end)
+
+handhold.Name = "handhold"
+handhold.Parent = yea
+handhold.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+handhold.BorderSizePixel = 0
+handhold.Position = UDim2.new(0.0314437076, 0, 0.59491086, 0)
+handhold.Size = UDim2.new(0, 129, 0, 43)
+handhold.Font = Enum.Font.SourceSans
+handhold.Text = "Hold Boombox in hand"
+handhold.TextColor3 = Color3.fromRGB(0, 0, 0)
+handhold.TextSize = 20.000
+handhold.TextWrapped = true
+handhold.MouseButton1Click:Connect(function() -- listen out for an event
+	for i,r in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+		if r:IsA('Tool') then 
+			r.GripForward = Vector3.new(-0, -1, -0)
+			r.GripPos = Vector3.new(-0.021, 0.62, 0)
+			r.GripRight = Vector3.new(0, 0, -1)
+			r.GripUp = Vector3.new(-1, 0, -0)
+		end
+		local Char = game.Players.LocalPlayer.Character
+		local Hum = Char:FindFirstChildOfClass("Humanoid") or Char:FindFirstChildOfClass("AnimationController")
+
+		for i,v in next, Hum:GetPlayingAnimationTracks() do
+			v:Stop()
+		end
+	end
+end)
+
+maintext_2.Name = "maintext"
+maintext_2.Parent = yea
+maintext_2.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+maintext_2.BorderSizePixel = 0
+maintext_2.Position = UDim2.new(0.409721881, 0, 0.267159194, 0)
+maintext_2.Size = UDim2.new(0, 66, 0, 144)
+maintext_2.Font = Enum.Font.SourceSans
+maintext_2.Text = "[Fake Lag Audios]  Fake Lags all audios \n [Mass Play]  Plays all Boomboxes"
+maintext_2.TextColor3 = Color3.fromRGB(255, 255, 255)
+maintext_2.TextSize = 14.000
+maintext_2.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+maintext_2.TextWrapped = true
+
+maintext_3.Name = "maintext"
+maintext_3.Parent = yea
+maintext_3.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+maintext_3.BorderSizePixel = 0
+maintext_3.Position = UDim2.new(0, 0, 0.92935133, 0)
+maintext_3.Size = UDim2.new(0, 375, 0, 19)
+maintext_3.Font = Enum.Font.SourceSans
+maintext_3.Text = "RightControl to show/hide GUI"
+maintext_3.TextColor3 = Color3.fromRGB(255, 255, 255)
+maintext_3.TextSize = 14.000
+maintext_3.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+maintext_3.TextWrapped = true
+
+audioid.Name = "audioid"
+audioid.Parent = yea
+audioid.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+audioid.BorderSizePixel = 0
+audioid.Position = UDim2.new(0.0273084417, 0, 0.267159194, 0)
+audioid.Size = UDim2.new(0, 129, 0, 43)
+audioid.Font = Enum.Font.SourceSans
+audioid.PlaceholderColor3 = Color3.fromRGB(42, 42, 42)
+audioid.PlaceholderText = "Audio ID"
+audioid.Text = ""
+audioid.TextColor3 = Color3.fromRGB(0, 0, 0)
+audioid.TextScaled = true
+audioid.TextSize = 14.000
+audioid.TextWrapped = true
+
+lag.Name = "lag"
+lag.Parent = yea
+lag.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+lag.BorderColor3 = Color3.fromRGB(255, 0, 0)
+lag.BorderSizePixel = 2
+lag.Position = UDim2.new(0.0277310349, 0, 0.100609362, 0)
+lag.Size = UDim2.new(0, 129, 0, 43)
+lag.Font = Enum.Font.SourceSans
+lag.Text = "Fake Lag Audios"
+lag.TextColor3 = Color3.fromRGB(0, 0, 0)
+lag.TextSize = 20.000
+lag.TextWrapped = true
+lag.MouseButton1Click:Connect(function() -- listen out for an event
+    lagaudios = not lagaudios
+    if lagaudios then
+        lag.BorderColor3 = Color3.fromRGB(0,255,0)
+  
+    else
+        lagaudios = false
+        lag.BorderColor3 = Color3.fromRGB(255,0,0)
+    end
+  end)
+
+sync.Name = "sync"
+sync.Parent = yea
+sync.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+sync.BorderSizePixel = 0
+sync.Position = UDim2.new(0.0314437635, 0, 0.759427011, 0)
+sync.Size = UDim2.new(0, 60, 0, 43)
+sync.Font = Enum.Font.SourceSans
+sync.Text = "Sync"
+sync.TextColor3 = Color3.fromRGB(0, 0, 0)
+sync.TextSize = 28.000
+sync.TextWrapped = true
+sync.MouseButton1Click:Connect(function() -- listen out for an event
+	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+		if v:IsA('Tool') then
+			v.Handle.Sound.TimePosition = 0
+		end
+	end
+end)
+
+timepos.Name = "timepos"
+timepos.Parent = yea
+timepos.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+timepos.BorderSizePixel = 0
+timepos.Position = UDim2.new(0.214356646, 0, 0.759427011, 0)
+timepos.Size = UDim2.new(0, 60, 0, 43)
+timepos.Font = Enum.Font.SourceSans
+timepos.Text = "Time Position"
+timepos.TextColor3 = Color3.fromRGB(0, 0, 0)
+timepos.TextSize = 20.000
+timepos.TextWrapped = true
+timepos.MouseButton1Click:Connect(function() -- listen out for an event
+	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+		if v:IsA('Tool') then
+			v.Handle.Sound.TimePosition = timenum.Text
+		end
+	end
+end)
+
+timenum.Name = "timenum"
+timenum.Parent = yea
+timenum.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+timenum.BorderSizePixel = 0
+timenum.Position = UDim2.new(0.411920756, 0, 0.757481754, 0)
+timenum.Size = UDim2.new(0, 66, 0, 43)
+timenum.Font = Enum.Font.SourceSans
+timenum.PlaceholderColor3 = Color3.fromRGB(42, 42, 42)
+timenum.PlaceholderText = "(sec)"
+timenum.Text = ""
+timenum.TextColor3 = Color3.fromRGB(0, 0, 0)
+timenum.TextScaled = true
+timenum.TextSize = 14.000
+timenum.TextWrapped = true
+
+lagtime.Name = "lagtime"
+lagtime.Parent = yea
+lagtime.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+lagtime.BorderSizePixel = 0
+lagtime.Position = UDim2.new(0.409721881, 0, 0.0994172096, 0)
+lagtime.Size = UDim2.new(0, 66, 0, 43)
+lagtime.Font = Enum.Font.SourceSans
+lagtime.PlaceholderColor3 = Color3.fromRGB(42, 42, 42)
+lagtime.PlaceholderText = "Time between lag/annoy"
+lagtime.Text = ""
+lagtime.TextColor3 = Color3.fromRGB(0, 0, 0)
+lagtime.TextScaled = true
+lagtime.TextSize = 14.000
+lagtime.TextWrapped = true
+
+annoysong.Name = "annoysong"
+annoysong.Parent = yea
+annoysong.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+annoysong.BorderColor3 = Color3.fromRGB(255, 0, 0)
+annoysong.BorderSizePixel = 2
+annoysong.Position = UDim2.new(0.625180602, 0, 0.0974547863, 0)
+annoysong.Size = UDim2.new(0, 129, 0, 43)
+annoysong.Font = Enum.Font.SourceSans
+annoysong.Text = "Annoy Audios"
+annoysong.TextColor3 = Color3.fromRGB(0, 0, 0)
+annoysong.TextSize = 20.000
+annoysong.TextWrapped = true
+annoysong.MouseButton1Click:Connect(function() -- listen out for an event
+    annoyaudios = not annoyaudios
+    if annoyaudios then
+        annoysong.BorderColor3 = Color3.fromRGB(0,255,0)
+  
+    else
+        annoyaudios = false
+        annoysong.BorderColor3 = Color3.fromRGB(255,0,0)
+    end
+  end)
+
+dupenum.Name = "dupenum"
+dupenum.Parent = yea
+dupenum.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+dupenum.BorderSizePixel = 0
+dupenum.Position = UDim2.new(0.624641776, 0, 0.267159194, 0)
+dupenum.Size = UDim2.new(0, 129, 0, 43)
+dupenum.Font = Enum.Font.SourceSans
+dupenum.PlaceholderColor3 = Color3.fromRGB(42, 42, 42)
+dupenum.PlaceholderText = "Dupe Amount"
+dupenum.Text = ""
+dupenum.TextColor3 = Color3.fromRGB(0, 0, 0)
+dupenum.TextScaled = true
+dupenum.TextSize = 14.000
+dupenum.TextWrapped = true
+
+dupestatus.Name = "dupestatus"
+dupestatus.Parent = yea
+dupestatus.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+dupestatus.BorderColor3 = Color3.fromRGB(255, 0, 0)
+dupestatus.BorderSizePixel = 2
+dupestatus.Position = UDim2.new(0.625180602, 0, 0.431839645, 0)
+dupestatus.Size = UDim2.new(0, 129, 0, 43)
+dupestatus.Font = Enum.Font.SourceSans
+dupestatus.Text = "Duping Status"
+dupestatus.TextColor3 = Color3.fromRGB(0, 0, 0)
+dupestatus.TextSize = 20.000
+dupestatus.TextWrapped = true
+
+
+maintext_4.Name = "maintext"
+maintext_4.Parent = yea
+maintext_4.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+maintext_4.BorderSizePixel = 0
+maintext_4.Position = UDim2.new(0.62305516, 0, 0.5949108, 0)
+maintext_4.Size = UDim2.new(0, 129, 0, 40)
+maintext_4.Font = Enum.Font.SourceSans
+maintext_4.Text = "Green : (Starts) Duping  Red : Aborts dupe/off"
+maintext_4.TextColor3 = Color3.fromRGB(255, 255, 255)
+maintext_4.TextSize = 15.000
+maintext_4.TextStrokeColor3 = Color3.fromRGB(255, 255, 255)
+maintext_4.TextWrapped = true
+
+exitgui.Name = "exit"
+exitgui.Parent = yea
+exitgui.BackgroundColor3 = Color3.fromRGB(22, 22, 22)
+exitgui.BorderSizePixel = 0
+exitgui.Position = UDim2.new(0.62077719, 0, 0.759426951, 0)
+exitgui.Size = UDim2.new(0, 129, 0, 43)
+exitgui.Font = Enum.Font.SourceSans
+exitgui.Text = "Destroy GUI"
+exitgui.TextColor3 = Color3.fromRGB(0, 0, 0)
+exitgui.TextSize = 22.000
+exitgui.TextWrapped = true
+exitgui.MouseButton1Click:Connect(function() -- listen out for an event
+	lagaudios = false
+annoyaudios = false
+duping = false
+wait(.1)
+boomboxgui:Destroy()
+end)
+
+-- Scripts:
+
+function onKeyPress(inputObject, gameProcessedEvent)
+	if inputObject.KeyCode == Enum.KeyCode.RightControl then
+		if yea.Visible == false then
+			yea.Visible = true
+		else
+			yea.Visible = false
+		end
+	end
+end
+
+game:GetService("UserInputService").InputBegan:connect(onKeyPress)
+
+local function SZCZTXS_fake_script() -- maintext.rgb 
+	local script = Instance.new('LocalScript', maintext)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(SZCZTXS_fake_script)()
+local function PZXYE_fake_script() -- playradio.rgb 
+	local script = Instance.new('LocalScript', playradio)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(PZXYE_fake_script)()
+local function SQED_fake_script() -- handhold.rgb 
+	local script = Instance.new('LocalScript', handhold)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(SQED_fake_script)()
+local function ODQIH_fake_script() -- yea.rgb 
+	local script = Instance.new('LocalScript', yea)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.BorderColor3 = color
+	end)
+end
+coroutine.wrap(ODQIH_fake_script)()
+local function BGOSPAT_fake_script() -- maintext_2.rgb 
+	local script = Instance.new('LocalScript', maintext_2)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(BGOSPAT_fake_script)()
+local function ONCORRT_fake_script() -- maintext_3.rgb 
+	local script = Instance.new('LocalScript', maintext_3)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(ONCORRT_fake_script)()
+local function ASMXVF_fake_script() -- audioid.rgb 
+	local script = Instance.new('LocalScript', audioid)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(ASMXVF_fake_script)()
+local function RVRMYU_fake_script() -- lag.rgb 
+	local script = Instance.new('LocalScript', lag)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(RVRMYU_fake_script)()
+local function PKFZWO_fake_script() -- sync.rgb 
+	local script = Instance.new('LocalScript', sync)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(PKFZWO_fake_script)()
+local function GBDDAQF_fake_script() -- timepos.rgb 
+	local script = Instance.new('LocalScript', timepos)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(GBDDAQF_fake_script)()
+local function JUBQ_fake_script() -- timenum.rgb 
+	local script = Instance.new('LocalScript', timenum)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(JUBQ_fake_script)()
+local function FYMUSGI_fake_script() -- lagtime.rgb 
+	local script = Instance.new('LocalScript', lagtime)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(FYMUSGI_fake_script)()
+local function IHNNIJ_fake_script() -- annoysong.rgb 
+	local script = Instance.new('LocalScript', annoysong)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(IHNNIJ_fake_script)()
+local function DGEAZ_fake_script() -- dupenum.rgb 
+	local script = Instance.new('LocalScript', dupenum)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(DGEAZ_fake_script)()
+local function JXRUTP_fake_script() -- dupestatus.rgb 
+	local script = Instance.new('LocalScript', dupestatus)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(JXRUTP_fake_script)()
+local function NXHKRNJ_fake_script() -- maintext_4.rgb 
+	local script = Instance.new('LocalScript', maintext_4)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(NXHKRNJ_fake_script)()
+local function FZFXWK_fake_script() -- exitgui.rgb 
+	local script = Instance.new('LocalScript', exitgui)
+
+	local t = 5; --how long does it take to go through the rainbow
+	
+	local tick = tick
+	local fromHSV = Color3.fromHSV
+	local RunService = game:GetService("RunService")
+	local Frame = script.Parent
+	
+	RunService:BindToRenderStep("Rainbow", 1000, function()
+		local hue = tick() % t / t
+		local color = fromHSV(hue, 1, 1)
+		script.Parent.TextColor3 = color
+	end)
+end
+coroutine.wrap(FZFXWK_fake_script)()
+
+local function duper()
+    local dupevalue = dupenum.Text
+    if duping == true then
+      for i=1,dupevalue do
+		wait(0.5)
+          for _, tool in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
+                  if string.find(string.lower(tool.Name),'boomb') then
+                      tool.Parent = game.Players.LocalPlayer.Character
+                  end
+          end
+          wait(0.2)
+          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(300000, 40000,200000)
+          
+          wait(0.2)
+          for _, tool in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+                  if string.find(string.lower(tool.Name),'boomb') then
+                      tool.Parent = game.Workspace
+                  end
+              end
+                  wait(0.2)
+          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(300000, game.Workspace.FallenPartsDestroyHeight + 20,200000)
+                          
+
+          game.Players.LocalPlayer.CharacterAdded:Wait()
+              repeat wait() until game.Players.LocalPlayer.Character.HumanoidRootPart
+              for _, tool in pairs(game.Workspace:GetChildren()) do
+                  if string.find(string.lower(tool.Name),'boomb') then
+          firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, tool.Handle, 0)
+                  end
+              end
+			  wait(0.2)
+			  if i == tonumber(dupevalue) then
+				dupestatus.BorderColor3 = Color3.fromRGB(255,0,0)
+				  duping = false
+				  print("Duping done!")
+	  return
+			elseif duping == false then
+                dupestatus.BorderColor3 = Color3.fromRGB(255,0,0)
+                print("Duping aborted.")
+				return
+			end
+        end
+          wait(0.5)
+end 
+end
+
+dupestatus.MouseButton1Click:Connect(function() -- listen out for an event
+    duping = not duping
+    if duping then
+        dupestatus.BorderColor3 = Color3.fromRGB(0,255,0)
+        duping = true
+  duper()
+    else
+        duping = false
+        dupestatus.BorderColor3 = Color3.fromRGB(255,0,0)
+    end
+  end)
+
+while true do
+    if lagaudios and not annoyaudios then
+        for i,v in pairs(game:GetService("Players"):GetChildren()) do
+    
+  
+              for i,v in pairs(v.Character:GetChildren()) do
+          if v:IsA("Tool") then
+			local thehand = v:FindFirstChild("Handle")
+			local soundplay = thehand:FindFirstChildOfClass("Sound")
+          soundplay.TimePosition = soundplay.TimePosition - lagtime.Text
+          end
+              end
+    end
+
+elseif annoyaudios and not lagaudios then
+    for i,v in pairs(game:GetService("Players"):GetChildren()) do
+        for i,v in pairs(v.Character:GetChildren()) do
+    if v:IsA("Tool") then
+		local thehand = v:FindFirstChild("Handle")
+    local soundplay = thehand:FindFirstChildOfClass("Sound")
+    soundplay.TimePosition = math.random(0,soundplay.TimeLength)
+    end
+end
+end
+
+    elseif annoyaudios and lagaudios then
+        for i,v in pairs(game:GetService("Players"):GetChildren()) do
+            for i,v in pairs(v.Character:GetChildren()) do
+        if v:IsA("Tool") then
+			local thehand = v:FindFirstChild("Handle")
+			local soundplay = thehand:FindFirstChildOfClass("Sound")
+        soundplay.TimePosition = math.random(0,soundplay.TimeLength)
+        soundplay.TimePosition = soundplay.TimePosition - lagtime.Text
+        end
+            end
+end
+end
+wait(lagtime.Text)
+end

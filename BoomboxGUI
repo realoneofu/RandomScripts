@@ -9,7 +9,7 @@ print([[
   
   Boombox GUI by realoneofu#3378
 ]])
--- Stealing isn't good!
+
 -- Gui to Lua
 -- Version: 3.2
 lagaudios = false
@@ -720,7 +720,7 @@ while true do
           if v:IsA("Tool") then
 			local thehand = v:FindFirstChild("Handle")
 			local soundplay = thehand:FindFirstChildOfClass("Sound")
-          soundplay.TimePosition = soundplay.TimePosition - lagtime.Text
+          soundplay.TimePosition = soundplay.TimePosition - tonumber(lagtime.Text)
           end
               end
     end
@@ -743,10 +743,10 @@ end
 			local thehand = v:FindFirstChild("Handle")
 			local soundplay = thehand:FindFirstChildOfClass("Sound")
         soundplay.TimePosition = math.random(0,soundplay.TimeLength)
-        soundplay.TimePosition = soundplay.TimePosition - lagtime.Text
+        soundplay.TimePosition = soundplay.TimePosition - tonumber(lagtime.Text)
         end
             end
 end
 end
-wait(lagtime.Text)
+wait(tonumber(lagtime.Text))
 end

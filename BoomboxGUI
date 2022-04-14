@@ -1,3 +1,4 @@
+--very skiddy but it works
 print([[
 
                   _                         __       
@@ -7,7 +8,9 @@ print([[
   | | |  __/ (_| | | (_) | | | |  __/ (_) | | | |_| |
   |_|  \___|\__,_|_|\___/|_| |_|\___|\___/|_|  \__,_|
   
-  Boombox GUI by realoneofu#3378
+  Boombox GUI by realoneofu#8232
+  
+  UPDATED AS OF 15/04/2022
 ]])
 
 -- Gui to Lua
@@ -80,21 +83,21 @@ playradio.TextWrapped = true
 playradio.MouseButton1Click:Connect(function() -- listen out for an event
 	local id = audioid.Text
 
-	for _, tool in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-		if string.find(string.lower(tool.Name),'boomb') then
-			tool.Parent = game.Players.LocalPlayer.Character
+	for _, tool in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+		if string.find(string.lower(tool.Name), 'boomb') then
+			tool.Parent = game:GetService("Players").LocalPlayer.Character
 		end
 	end
 	wait()
-	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+	for i, v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
 		if v:IsA('Tool') then
-			v.Remote:FireServer('PlaySong',id)
+			v.Remote:FireServer('PlaySong', id)
 			v.Handle.Sound.Playing = false
 		end
 	end
 	wait()
-	local NA = game.Players.LocalPlayer.Name
-	for _,v in pairs(game.workspace[NA]:GetDescendants()) do
+	local NA = game:GetService("Players").LocalPlayer.Name
+	for _, v in pairs(workspace[NA]:GetDescendants()) do
 		if v:IsA'Sound' then
 			if v.IsPlaying then
 				if v.Name ~= "Jumping" or v.Name ~= "FreeFalling" or v.Name ~= "Died" or v.Name ~= "Landing" or v.Name ~= "Splash" or v.Name ~= "Running" or v.Name ~= "Swimming" or v.Name ~= "Climbing" then  
@@ -117,17 +120,17 @@ handhold.TextColor3 = Color3.fromRGB(0, 0, 0)
 handhold.TextSize = 20.000
 handhold.TextWrapped = true
 handhold.MouseButton1Click:Connect(function() -- listen out for an event
-	for i,r in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do
+	for i, r in pairs(game:GetService("Players").LocalPlayer.Character:GetDescendants()) do
 		if r:IsA('Tool') then 
 			r.GripForward = Vector3.new(-0, -1, -0)
 			r.GripPos = Vector3.new(-0.021, 0.62, 0)
 			r.GripRight = Vector3.new(0, 0, -1)
 			r.GripUp = Vector3.new(-1, 0, -0)
 		end
-		local Char = game.Players.LocalPlayer.Character
+		local Char = game:GetService("Players").LocalPlayer.Character
 		local Hum = Char:FindFirstChildOfClass("Humanoid") or Char:FindFirstChildOfClass("AnimationController")
 
-		for i,v in next, Hum:GetPlayingAnimationTracks() do
+		for i, v in next, Hum:GetPlayingAnimationTracks() do
 			v:Stop()
 		end
 	end
@@ -187,15 +190,14 @@ lag.TextColor3 = Color3.fromRGB(0, 0, 0)
 lag.TextSize = 20.000
 lag.TextWrapped = true
 lag.MouseButton1Click:Connect(function() -- listen out for an event
-    lagaudios = not lagaudios
-    if lagaudios then
-        lag.BorderColor3 = Color3.fromRGB(0,255,0)
-  
-    else
-        lagaudios = false
-        lag.BorderColor3 = Color3.fromRGB(255,0,0)
-    end
-  end)
+	lagaudios = not lagaudios
+	if lagaudios then
+		lag.BorderColor3 = Color3.fromRGB(0, 255, 0)
+	else
+		lagaudios = false
+		lag.BorderColor3 = Color3.fromRGB(255, 0, 0)
+	end
+end)
 
 sync.Name = "sync"
 sync.Parent = yea
@@ -209,7 +211,7 @@ sync.TextColor3 = Color3.fromRGB(0, 0, 0)
 sync.TextSize = 28.000
 sync.TextWrapped = true
 sync.MouseButton1Click:Connect(function() -- listen out for an event
-	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+	for i, v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
 		if v:IsA('Tool') then
 			v.Handle.Sound.TimePosition = 0
 		end
@@ -228,7 +230,7 @@ timepos.TextColor3 = Color3.fromRGB(0, 0, 0)
 timepos.TextSize = 20.000
 timepos.TextWrapped = true
 timepos.MouseButton1Click:Connect(function() -- listen out for an event
-	for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
+	for i, v in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
 		if v:IsA('Tool') then
 			v.Handle.Sound.TimePosition = timenum.Text
 		end
@@ -278,15 +280,14 @@ annoysong.TextColor3 = Color3.fromRGB(0, 0, 0)
 annoysong.TextSize = 20.000
 annoysong.TextWrapped = true
 annoysong.MouseButton1Click:Connect(function() -- listen out for an event
-    annoyaudios = not annoyaudios
-    if annoyaudios then
-        annoysong.BorderColor3 = Color3.fromRGB(0,255,0)
-  
-    else
-        annoyaudios = false
-        annoysong.BorderColor3 = Color3.fromRGB(255,0,0)
-    end
-  end)
+	annoyaudios = not annoyaudios
+	if annoyaudios then
+		annoysong.BorderColor3 = Color3.fromRGB(0, 255, 0)
+	else
+		annoyaudios = false
+		annoysong.BorderColor3 = Color3.fromRGB(255, 0, 0)
+	end
+end)
 
 dupenum.Name = "dupenum"
 dupenum.Parent = yea
@@ -343,21 +344,17 @@ exitgui.TextSize = 22.000
 exitgui.TextWrapped = true
 exitgui.MouseButton1Click:Connect(function() -- listen out for an event
 	lagaudios = false
-annoyaudios = false
-duping = false
-wait(.1)
-boomboxgui:Destroy()
+	annoyaudios = false
+	duping = false
+	wait(.1)
+	boomboxgui:Destroy()
 end)
 
 -- Scripts:
 
 function onKeyPress(inputObject, gameProcessedEvent)
 	if inputObject.KeyCode == Enum.KeyCode.RightControl then
-		if yea.Visible == false then
-			yea.Visible = true
-		else
-			yea.Visible = false
-		end
+		yea.Visible = not yea.Visible
 	end
 end
 
@@ -654,99 +651,90 @@ end
 coroutine.wrap(FZFXWK_fake_script)()
 
 local function duper()
-    local dupevalue = dupenum.Text
-    if duping == true then
-      for i=1,dupevalue do
-		wait(0.5)
-          for _, tool in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-                  if string.find(string.lower(tool.Name),'boomb') then
-                      tool.Parent = game.Players.LocalPlayer.Character
-                  end
-          end
-          wait(0.2)
-          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(300000, 40000,200000)
-          
-          wait(0.2)
-          for _, tool in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-                  if string.find(string.lower(tool.Name),'boomb') then
-                      tool.Parent = game.Workspace
-                  end
-              end
-                  wait(0.2)
-          game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(300000, game.Workspace.FallenPartsDestroyHeight + 20,200000)
-                          
-
-          game.Players.LocalPlayer.CharacterAdded:Wait()
-              repeat wait() until game.Players.LocalPlayer.Character.HumanoidRootPart
-              for _, tool in pairs(game.Workspace:GetChildren()) do
-                  if string.find(string.lower(tool.Name),'boomb') then
-          firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, tool.Handle, 0)
-                  end
-              end
-			  wait(0.2)
-			  if i == tonumber(dupevalue) then
-				dupestatus.BorderColor3 = Color3.fromRGB(255,0,0)
-				  duping = false
-				  print("Duping done!")
-	  return
+	local dupevalue = dupenum.Text
+	if duping == true then
+		for i = 1, dupevalue do
+			wait(0.5)
+			for _, tool in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
+				if string.find(string.lower(tool.Name), 'boomb') then
+					tool.Parent = game:GetService("Players").LocalPlayer.Character
+				end
+			end
+			wait(0.2)
+			game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(300000, 40000, 200000)
+			wait(0.2)
+			for _, tool in pairs(game:GetService("Players").LocalPlayer.Character:GetChildren()) do
+				if string.find(string.lower(tool.Name), 'boomb') then
+					tool.Parent = workspace
+				end
+			end
+			wait(0.2)
+			game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = CFrame.new(300000, workspace.FallenPartsDestroyHeight + 20, 200000)
+			game:GetService("Players").LocalPlayer.CharacterAdded:Wait()
+			repeat
+				wait()
+			until game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+			for _, tool in pairs(workspace:GetChildren()) do
+				if string.find(string.lower(tool.Name), 'boomb') then
+					firetouchinterest(game:GetService("Players").LocalPlayer.Character:FindFirstChild("HumanoidRootPart"), tool.Handle, 0)
+				end
+			end
+			wait(0.2)
+			if i == tonumber(dupevalue) then
+				dupestatus.BorderColor3 = Color3.fromRGB(255, 0, 0)
+				duping = false
+				print("Duping done!")
+				return
 			elseif duping == false then
-                dupestatus.BorderColor3 = Color3.fromRGB(255,0,0)
-                print("Duping aborted.")
+				dupestatus.BorderColor3 = Color3.fromRGB(255, 0, 0)
+				print("Duping aborted.")
 				return
 			end
-        end
-          wait(0.5)
-end 
+		end
+		wait(0.5)
+	end 
 end
 
 dupestatus.MouseButton1Click:Connect(function() -- listen out for an event
-    duping = not duping
-    if duping then
-        dupestatus.BorderColor3 = Color3.fromRGB(0,255,0)
-        duping = true
-  duper()
-    else
-        duping = false
-        dupestatus.BorderColor3 = Color3.fromRGB(255,0,0)
-    end
-  end)
-
-while true do
-    if lagaudios and not annoyaudios then
-        for i,v in pairs(game:GetService("Players"):GetChildren()) do
-    
-  
-              for i,v in pairs(v.Character:GetChildren()) do
-          if v:IsA("Tool") then
-			local thehand = v:FindFirstChild("Handle")
-			local soundplay = thehand:FindFirstChildOfClass("Sound")
-          soundplay.TimePosition = soundplay.TimePosition - tonumber(lagtime.Text)
-          end
-              end
-    end
-
-elseif annoyaudios and not lagaudios then
-    for i,v in pairs(game:GetService("Players"):GetChildren()) do
-        for i,v in pairs(v.Character:GetChildren()) do
-    if v:IsA("Tool") then
-		local thehand = v:FindFirstChild("Handle")
-    local soundplay = thehand:FindFirstChildOfClass("Sound")
-    soundplay.TimePosition = math.random(0,soundplay.TimeLength)
-    end
-end
-end
-
-    elseif annoyaudios and lagaudios then
-        for i,v in pairs(game:GetService("Players"):GetChildren()) do
-            for i,v in pairs(v.Character:GetChildren()) do
-        if v:IsA("Tool") then
-			local thehand = v:FindFirstChild("Handle")
-			local soundplay = thehand:FindFirstChildOfClass("Sound")
-        soundplay.TimePosition = math.random(0,soundplay.TimeLength)
-        soundplay.TimePosition = soundplay.TimePosition - tonumber(lagtime.Text)
-        end
-            end
-end
-end
-wait(tonumber(lagtime.Text))
-end
+	duping = not duping
+	if duping then
+		dupestatus.BorderColor3 = Color3.fromRGB(0, 255, 0)
+		duping = true
+		duper()
+	else
+		duping = false
+		dupestatus.BorderColor3 = Color3.fromRGB(255, 0, 0)
+	end
+end)
+task.spawn(function()
+	while true do
+		if lagaudios then
+			for i, v in pairs(game:GetService("Players"):GetChildren()) do
+				for i, v in pairs(v.Character:GetChildren()) do
+					if v:IsA("Tool") then
+						local thehand = v:FindFirstChild("Handle")
+						local soundplay = thehand:FindFirstChildOfClass("Sound")
+						soundplay.TimePosition = soundplay.TimePosition - lagtime.Text
+					end
+				end
+			end
+		end
+		wait(lagtime.Text)
+	end
+end)
+task.spawn(function()
+	while true do
+		if annoyaudios then
+			for i, v in pairs(game:GetService("Players"):GetChildren()) do
+				for i, v in pairs(v.Character:GetChildren()) do
+					if v:IsA("Tool") then
+						local thehand = v:FindFirstChild("Handle")
+						local soundplay = thehand:FindFirstChildOfClass("Sound")
+						soundplay.TimePosition = math.random(0, soundplay.TimeLength)
+					end
+				end
+			end
+		end
+		wait(lagtime.Text)
+	end
+end)

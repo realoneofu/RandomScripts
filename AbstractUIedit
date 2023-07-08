@@ -61,7 +61,7 @@ function library:Create(name, size)
 	--linoria
 	
 	is.InputBegan:connect(function(input)
-		if input.KeyCode == Enum.KeyCode.RightControl then
+		if input.KeyCode == Enum.KeyCode.RightAlt then
 			MainFrame.Visible = not MainFrame.Visible
 		end
 	end)

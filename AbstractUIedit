@@ -59,12 +59,20 @@ function library:Create(name, size)
 	shadow.Parent = MainFrame
 	
 	--linoria
-	
+
+local Mouse = game:GetService("Players").LocalPlayer:GetMouse()
+     
+Mouse.KeyDown:connect(function(Key)
+  if Key:lower() == "2" then
+    MainFrame.Visible = not MainFrame.Visible
+  end
+end)
+	--[[
 	is.InputBegan:connect(function(input)
 		if input.KeyCode == Enum.KeyCode.RightAlt then
 			MainFrame.Visible = not MainFrame.Visible
 		end
-	end)
+	end)]]
 
 	local s, event = pcall(function()
 		return MainFrame.MouseEnter

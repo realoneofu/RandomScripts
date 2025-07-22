@@ -44,7 +44,7 @@ local exitgui = Instance.new("TextButton")
 --Properties:
 
 boomboxgui.Name = "boomboxgui"
-boomboxgui.Parent = game:WaitForChild("CoreGui")
+boomboxgui.Parent = game.Players.LocalPlayer.PlayerGui
 boomboxgui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 yea.Name = "yea"

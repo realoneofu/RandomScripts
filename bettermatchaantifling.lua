@@ -5,12 +5,9 @@ local RunService = game:GetService("RunService")
 
 local LocalPlayer = Players.LocalPlayer
 
-local antiFlingEnabled = false
 local steppedConnection = nil
-
--- Cached BaseParts belonging to other players.
--- Avoids doing GetDescendants() every physics frame.
 local cachedParts = {}
+local originalCollision = {}
 local refreshTimer = 0
 
 local function rebuildCache()
@@ -24,10 +21,14 @@ local function rebuildCache()
 			if character then
 				for _, object in ipairs(character:GetDescendants()) do
 					if object:IsA("BasePart") then
-						count = count + 1
+						count += 1
 						newCache[count] = object
 
-						-- Apply immediately during refresh too
+						-- Only save the original state once.
+						if originalCollision[object] == nil then
+							originalCollision[object] = object.CanCollide
+						end
+
 						object.CanCollide = false
 					end
 				end
@@ -39,19 +40,13 @@ local function rebuildCache()
 end
 
 local function enforceAntiFling(dt)
-	-- Enforce collision state immediately before physics.
+	-- Hot path: no GetDescendants() here.
 	for i = 1, #cachedParts do
-		local part = cachedParts[i]
-
-		-- Don't bother reading CanCollide first.
-		-- Just force the desired value.
-		part.CanCollide = false
+		cachedParts[i].CanCollide = false
 	end
 
-	-- Characters/accessories can change at runtime.
-	-- Periodically rebuild the cache without doing
-	-- GetDescendants() every frame.
-	refreshTimer = refreshTimer + dt
+	-- Occasionally pick up newly created character parts/accessories.
+	refreshTimer += dt
 
 	if refreshTimer >= 0.25 then
 		refreshTimer = 0
@@ -59,35 +54,38 @@ local function enforceAntiFling(dt)
 	end
 end
 
-local function setAntiFling(state)
-	antiFlingEnabled = state
+local function restoreCollisions()
+	for part, originalState in pairs(originalCollision) do
+		part.CanCollide = originalState
+	end
 
+	cachedParts = {}
+	originalCollision = {}
+end
+
+local function setAntiFling(state)
 	if state then
 		if steppedConnection then
 			return
 		end
 
 		refreshTimer = 0
-
-		-- Populate + disable everything immediately.
 		rebuildCache()
 
-		steppedConnection = RunService.Stepped:Connect(function(dt)
-			if antiFlingEnabled then
-				enforceAntiFling(dt)
-			end
-		end)
+		steppedConnection = RunService.Stepped:Connect(enforceAntiFling)
 	else
+		-- Stop enforcement FIRST.
 		if steppedConnection then
 			steppedConnection:Disconnect()
 			steppedConnection = nil
 		end
 
-		cachedParts = {}
+		-- Then restore what every part had before Anti-Fling.
+		restoreCollisions()
+
 		refreshTimer = 0
 	end
 end
-
 
 UI.AddTab("Anti Fling", function(tab)
 	local sec = tab:Section("Protection", "Left")
